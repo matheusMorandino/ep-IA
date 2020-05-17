@@ -1,6 +1,7 @@
 import csv
 import rede as rede
 import pandas as pd 
+import numpy as np 
 from tqdm import tqdm
 
 #função para criação de conjunto de treino
@@ -12,7 +13,12 @@ def cria_set_treino (folds, index, r_fold) :
     return set_treino
 
 #carrega o conjuntos de dados
-conjunto = pd.read_csv('Conjuntos MNIST/mnist_join.csv')
+treino = pd.read_csv('modelo/Conjuntos MNIST/mnist_treinamento.csv').to_numpy()
+teste = pd.read_csv('modelo/Conjuntos MNIST/mnist_teste.csv').to_numpy()
+
+conjunto = np.concatenate((treino, teste))
+
+conjunto = pd.DataFrame(conjunto).sample(frac=1)
 
 #número de folds
 r_fold = 10
@@ -35,16 +41,11 @@ for fold_etapa in range(r_fold) :
     set_teste = pd.DataFrame(folds[fold_etapa]).reset_index(drop=True)
     set_treino = cria_set_treino(folds=folds, index=fold_etapa, r_fold=r_fold).reset_index(drop=True)
 
-    #print("-> " + str(len(set_teste)))
-    #print("-> " + str(len(set_treino)))
-
     #separando amostras de gabaritos
     gabarito_teste = set_teste.iloc[:, 0]
     amostras_teste = set_teste.iloc[:, 1:len(set_teste)-1].div(255)
     gabarito_treino = set_treino.iloc[:, 0]
     amostras_treino = set_treino.iloc[:, 1:len(set_treino)-1].div(255)
-
-    #print(amostras_teste.iloc[0, :])
 
     #criando rede
     rede_percep = rede.Rede(n_classes = 10, 
