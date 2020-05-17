@@ -22,7 +22,7 @@ amostras_teste = teste.iloc[:, 1:len(treino)-1].div(255)
 rede = rede.Rede(n_classes = 10,
                 saidas = gabarito_treino,
                 amostras = amostras_treino,
-                taxa_aprendizado = 1, 
+                taxa_aprendizado = 0.1, 
                 epocas = 50, 
                 bias = 0.1)
 
