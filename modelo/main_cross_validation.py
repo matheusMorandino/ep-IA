@@ -12,9 +12,15 @@ def cria_set_treino (folds, index, r_fold) :
             set_treino = set_treino.append(folds[i], ignore_index=True)
     return set_treino
 
-#carrega o conjuntos de dados
-treino = pd.read_csv('Conjuntos MNIST/mnist_treinamento.csv').to_numpy()
-teste = pd.read_csv('Conjuntos MNIST/mnist_teste.csv').to_numpy()
+#Parematros do sistema
+taxa_aprendizado = float(input("> Insira a taxa de apendizado desejada(e.g. 0.1): "))
+epocas = int(input("> Insira o número de epocas para o treino(e.g. 50): "))
+path_treino = input("> Insira o caminho para o dataset de treino no formato .csv(e.g. dados/treino.csv): ")
+path_teste = input("> Insira o caminho para o dataset de teste no formato .csv(e.g. dados/teste.csv): ")
+
+#Carrega os conjuntos de dados
+treino = pd.read_csv(path_treino)
+teste = pd.read_csv(path_teste)
 
 conjunto = np.concatenate((treino, teste))
 
@@ -47,13 +53,15 @@ for fold_etapa in range(r_fold) :
     gabarito_treino = set_treino.iloc[:, 0]
     amostras_treino = set_treino.iloc[:, 1:len(set_treino)-1].div(255)
 
+    n_classes = len(set(gabarito_treino.tolist()))
+
     #criando rede
-    rede_percep = rede.Rede(n_classes = 10, 
-                    saidas = gabarito_treino,
-                    amostras = amostras_treino,
-                    taxa_aprendizado = 0.1, 
-                    epocas = 50, 
-                    bias = 0.1)
+    rede_percep = rede.Rede(n_classes = n_classes,
+                saidas = gabarito_treino,
+                amostras = amostras_treino,
+                taxa_aprendizado = taxa_aprendizado, 
+                epocas = epocas, 
+                bias = 0.1)
 
     #treinando rede no set formado
     rede_percep.treina()
