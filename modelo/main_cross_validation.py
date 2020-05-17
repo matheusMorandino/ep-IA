@@ -13,12 +13,12 @@ def cria_set_treino (folds, index, r_fold) :
     return set_treino
 
 #carrega o conjuntos de dados
-treino = pd.read_csv('modelo/Conjuntos MNIST/mnist_treinamento.csv').to_numpy()
-teste = pd.read_csv('modelo/Conjuntos MNIST/mnist_teste.csv').to_numpy()
+treino = pd.read_csv('Conjuntos MNIST/mnist_treinamento.csv').to_numpy()
+teste = pd.read_csv('Conjuntos MNIST/mnist_teste.csv').to_numpy()
 
 conjunto = np.concatenate((treino, teste))
 
-conjunto = pd.DataFrame(conjunto).sample(frac=1)
+conjunto = pd.DataFrame(conjunto).sample(frac=1).reset_index(drop=True)
 
 #número de folds
 r_fold = 10

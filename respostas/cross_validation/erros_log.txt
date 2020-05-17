@@ -1,0 +1,4 @@
+> total: 69998
+> acertos: 62012
+> erros: 7986
+> acuracia: 88,59110260293152%
