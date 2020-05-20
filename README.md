@@ -22,3 +22,5 @@ E caso queira executar o mesmo usando o 10-fold cross-validation use o seguinte 
 ```
 py -3 modelo\main_cross_validation.py
 ```
+#### Importante:
+Coloque os dados para treino e teste no diretório 'modelo'.
